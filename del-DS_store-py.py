@@ -71,7 +71,7 @@ def main():
 						if(args.v):
 							print("[i] checking: {}".format(os.path.abspath(os.path.join(root, file))))
 						# 4. Checks if exists .DS_Store file
-						if file == ".DS_Store":
+						if file == to_delete:
 
 							# 5. Get full path of current .DS_Store file
 							fullpath = os.path.abspath(os.path.join(root, file))
@@ -85,7 +85,7 @@ def main():
 							i += 1
 				# 7. print result
 				end = time.time()
-				print("\n\n\n[i] number of deleted files: {} \n[i] filesize: {} \n[i] time elapsed: {:4.4f}sec".format(i, size(acc_f_size), (end - start) % 60))
+				print("\n\n\n[i] number of deleted files: {} \n[i] total filesize: {} \n[i] time elapsed: {:4.4f}sec".format(i, size(acc_f_size), (end - start) % 60))
 			else:
 				exit(0)
 		else:
@@ -94,7 +94,7 @@ def main():
 	except KeyboardInterrupt:
 		end = time.time()
 		print("[i] KeyboardINterrupt, aborting")
-		print("\n\n\n[i] number of deleted files: {} \n[i] filesize: {} \n[i] time elapsed: {:4.4f}sec".format(i, size(acc_f_size), (end - start) % 60))
+		print("\n\n\n[i] number of deleted files: {} \n[i] total filesize: {} \n[i] time elapsed: {:4.4f}sec".format(i, size(acc_f_size), (end - start) % 60))
 
 if __name__ == "__main__":
 	main()

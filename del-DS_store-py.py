@@ -10,6 +10,7 @@
 import os
 import sys
 import argparse
+import time
 from hurry.filesize import size
 
 CWD = os.getcwd()
@@ -55,6 +56,7 @@ def main():
 			exit(0)
 		
 		if input("[i] your path to clean: {} \n[?] do you want to start? (y/n)   ".format(path)) == "y":
+			start = time.time()
 			# 1. Check if parameter is a dir
 			if os.path.isdir(path):
 
@@ -74,13 +76,14 @@ def main():
 							# get file size
 							acc_f_size += os.path.getsize(fullpath)
 
-							print("[i] Deleting: \"{}\" \n[i] deleted bytes: {}".format(fullpath, acc_f_size))
+							print("[i] Deleting: \"{}\" \n[i] deleted: {}".format(fullpath, size(acc_f_size)))
 
 							# 6. Remove file
 							os.remove(fullpath)
 							i += 1
 				# 7. print result
-				print("[i] deleted: {} files and {}".format(i, size(acc_f_size)))
+				end = time.time()
+				print("[i] deleted: {} \n[i] files and {} \n[i] time elapsed: {}".format(i, size(acc_f_size), end - start))
 			else:
 				exit(0)
 		else:

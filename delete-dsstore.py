@@ -1,64 +1,93 @@
 #!/bin/python
 
-#
 # delete-dssstore.py
 #
 # A simple python script to delete .DS_Store files
 #
-# Angelito M. Goulart
-# www.angelitomg.com
-#
-# April/2013
-#
+# 3zbumban
+# 2019
 
 import os
 import sys
+import argparse
+from hurry.filesize import size
 
-# Help function
-def showhelp():
-	print "Usage: delete-dsstore.py PATH"
-	print "Example: delete-dsstore.py /Users/angelito"
+CWD = os.getcwd()
 
+to_delete = ".DS_Store"
 
-if len(sys.argv) > 1:
+argumetnparser = argparse.ArgumentParser(description="Usage: delete-dsstore.py -p/--path <PATH> or:  delete-dsstore.py -c/--cwd/--current-dir \nExample: delete-dsstore.py -p /Users/angelito")
+argumetnparser.add_argument("-p", "--path", dest="t_path", type=str, required=False)
+argumetnparser.add_argument("-c", "--current-dir", "--cwd", dest="use_cwd", action="store_true")
 
-	# Check if parameter is a dir
-	if os.path.isdir(sys.argv[1]):
+args, unknowns = argumetnparser.parse_known_args()
 
-		# Clear file counter
-		i = 0;
+def welcome():
+	print("\n" * 5)
+	print("""
+       /$$           /$$       /$$$$$$$   /$$$$$$                    /$$                                  
+      | $$          | $$      | $$__  $$ /$$__  $$                  | $$                                  
+  /$$$$$$$  /$$$$$$ | $$      | $$  \ $$| $$  \__/        /$$$$$$$ /$$$$$$    /$$$$$$   /$$$$$$   /$$$$$$ 
+ /$$__  $$ /$$__  $$| $$      | $$  | $$|  $$$$$$        /$$_____/|_  $$_/   /$$__  $$ /$$__  $$ /$$__  $$
+| $$  | $$| $$$$$$$$| $$      | $$  | $$ \____  $$      |  $$$$$$   | $$    | $$  \ $$| $$  \__/| $$$$$$$$
+| $$  | $$| $$_____/| $$      | $$  | $$ /$$  \ $$       \____  $$  | $$ /$$| $$  | $$| $$      | $$_____/
+|  $$$$$$$|  $$$$$$$| $$      | $$$$$$$/|  $$$$$$/       /$$$$$$$/  |  $$$$/|  $$$$$$/| $$      |  $$$$$$$
+ \_______/ \_______/|__/     .|_______/  \______//$$$$$$|_______/    \___/   \______/ |__/       \_______/
+                                                |______/                       
 
-		# Get path
-		path  = sys.argv[1];
+												by 3zbumban
+""")
 
-		# Runs through all files in the directory
-		for root, sub, files in os.walk(path):
-			
-			for file in files:
-
-				# Checks if exists .DS_Store file
-				if file == ".DS_Store":
-
-					# Get full path of current .DS_Store file
-					fullpath = os.path.abspath(os.path.join(root, file))
-					print "Deleting " + fullpath
-
-					# Remove file
-					os.remove(fullpath)
-					i += 1
-
-		print str(i) + " files deleted";
-
-	elif sys.argv[1] == '--help':
+def main():
+	welcome()
+	try:
+		if(args.use_cwd):
+			path  = CWD
+			print("[i] using scripts dir: {}".format(path))
+		elif(args.t_path):
+			if(os.path.isdir(args.t_path)):
+				path = args.t_path
+			else:
+				print("[e] given path is not a dir")
+				exit(-1)
+		else:
+			print("[i] exit no path given...")
+			exit(0)
 		
-		# Show help message
-		showhelp()
+		if input("[i] your path to clean: {} \n[?] do you want to start? (y/n)   ".format(path)) == "y":
+			# 1. Check if parameter is a dir
+			if os.path.isdir(path):
 
-	else:
+				# 2. Clear file counter
+				i = 0
+				acc_f_size = 0
+				# 3. walks all files in the directory
+				for root, sub, files in os.walk(path):
+						
+					for file in files:
 
-		print "Argument must be a valid directory"
+						# 4. Checks if exists .DS_Store file
+						if file == ".DS_Store":
 
-else:
+							# 5. Get full path of current .DS_Store file
+							fullpath = os.path.abspath(os.path.join(root, file))
+							# get file size
+							acc_f_size += os.path.getsize(fullpath)
 
-	showhelp()
+							print("[i] Deleting: \"{}\" \n[i] deleted bytes: {}".format(fullpath, acc_f_size))
 
+							# 6. Remove file
+							os.remove(fullpath)
+							i += 1
+				# 7. print result
+				print("[i] deleted: {} files and {}".format(i, size(acc_f_size)))
+			else:
+				exit(0)
+		else:
+			print("[i] you choose to abort the script...")
+			exit(0)
+	except KeyboardInterrupt:
+		print("[i] KeyboardINterrupt, aborting")
+
+if __name__ == "__main__":
+	main()

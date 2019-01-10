@@ -17,8 +17,8 @@ CWD = os.getcwd()
 to_delete = ".DS_Store"
 
 argumetnparser = argparse.ArgumentParser(description="Usage: delete-dsstore.py -p/--path <PATH> or:  delete-dsstore.py -c/--cwd/--current-dir \nExample: delete-dsstore.py -p /Users/angelito")
-argumetnparser.add_argument("-p", "--path", dest="t_path", type=str, required=False)
-argumetnparser.add_argument("-c", "--current-dir", "--cwd", dest="use_cwd", action="store_true")
+argumetnparser.add_argument("-p", "--path", dest="target_path", type=str, required=False, help="the path you want to start from as a string \"C:\example\dir\...\...\"")
+argumetnparser.add_argument("-c", "--current-dir", "--cwd", dest="use_cwd", action="store_true", help="add this flag to use the scripts dir as the starting point")
 
 args, unknowns = argumetnparser.parse_known_args()
 
@@ -44,9 +44,9 @@ def main():
 		if(args.use_cwd):
 			path  = CWD
 			print("[i] using scripts dir: {}".format(path))
-		elif(args.t_path):
-			if(os.path.isdir(args.t_path)):
-				path = args.t_path
+		elif(args.target_path):
+			if(os.path.isdir(args.target_path)):
+				path = args.target_path
 			else:
 				print("[e] given path is not a dir")
 				exit(-1)

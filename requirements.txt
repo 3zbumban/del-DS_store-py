@@ -1,1 +1,1 @@
-hurry
+hurry.filesize

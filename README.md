@@ -1,20 +1,17 @@
-delete-dsstore
-==========
+# del-DS_Store-py
 
-A simple python script to delete .DS_Store files.
+## Instalation
 
-Usage
-----------
-Call the script passing as parameter the directory that you want remove .DS_Store files.
+```sh
+git clone https://github.com/3zbumban/del-DS_store-py.git
+cd del-DS_store-py
+pip install -r requirements.txt
+```
 
-Attention: This script works recursively.
+## Usage
 
-License
-----------
-This script is free and you can modify and distribute without any restriction. And without any warranty.
+```sh
+python del-DS_store-py.py --help
+```
 
-Author
-----------
-Angelito M. Goulart
-
-www.angelitomg.com
+### Start from script location

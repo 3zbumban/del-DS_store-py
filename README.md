@@ -1,5 +1,7 @@
 # del-DS_Store-py
 
+simple python script to delete .DS_store files
+
 ## Instalation
 
 ```sh

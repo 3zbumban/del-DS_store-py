@@ -51,10 +51,10 @@ def main():
 				path = args.target_path
 			else:
 				print("[e] given path is not a dir\n[i] did you use a backslash (\"\\\") to much?")
-				exit(-1)
+				sys.exit(-1)
 		else:
 			print("[i] exit no path given...")
-			exit(0)
+			sys.exit(0)
 		
 		if input("[i] your path to clean: {} \n[?] do you want to start? (y/n)   ".format(path)) == "y":
 			start = time.time()
@@ -87,10 +87,10 @@ def main():
 				end = time.time()
 				print("\n\n\n[i] number of deleted files: {} \n[i] total filesize: {} \n[i] time elapsed: {:4.4f}sec".format(i, size(acc_f_size), (end - start) % 60))
 			else:
-				exit(0)
+				sys.exit(0)
 		else:
 			print("[i] you choose to abort the script...")
-			exit(0)
+			sys.exit(0)
 	except KeyboardInterrupt:
 		end = time.time()
 		print("[i] KeyboardINterrupt, aborting")
